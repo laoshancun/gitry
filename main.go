@@ -63,5 +63,29 @@ func main() {
 		}
 	})
 
+	app.Handle("GET", "/", func(ctx iris.Context) {
+		page := model.IndexPage{Message: "Hello world!"}
+		page.Title = "home page"
+		ctx.ViewData("", page)
+		if err := ctx.View("index.html"); err != nil {
+			ctx.StatusCode(iris.StatusInternalServerError)
+			ctx.Writef(err.Error())
+		}
+	})
+
+	app.Handle("GET", "/verifycode", func(ctx iris.Context) {
+		catpcha := service.Captcha{}
+		id, image := catpcha.GenerateCaptcha("")
+		ctx.JSON(iris.Map{"state": true, "data": image, "token": id})
+	})
+
+	app.Handle("POST", "/verifycode", func(ctx iris.Context) {
+		catpcha := service.Captcha{}
+		code := ctx.PostValue("code")
+		token := ctx.PostValue("token")
+		state, err := catpcha.VerfiyCaptcha(token, code)
+		ctx.JSON(iris.Map{"state": state, "msg": err})
+	})
+
 	app.Run(iris.Addr(":8080"), iris.WithConfiguration(iris.YAML("./config/app.yml")))
 }

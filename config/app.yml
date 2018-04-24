@@ -1,4 +1,5 @@
 DisablePathCorrection: false
+WithoutVersionChecker: true
 EnablePathEscape: false
 FireMethodNotAllowed: true
 DisableBodyConsumptionOnUnmarshal: true

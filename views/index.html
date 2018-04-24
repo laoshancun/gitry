@@ -1,7 +1,26 @@
-<div >
-
+<div>
 	<h1>{{.Message}}</h1>
-
-	{{ render "partials/page1_partial1.html"}}
-
+	<img id="imgCaptcha" style="width: 240px;height: 60px;" />
+	<input type="text" id="txtCode" />
+	<input type="hidden" id="txtToken" />
+	<button id="btnSubmit">提交</button>
+	<script type="text/javascript">
+		var $img=$("#imgCaptcha").on('click',function () {
+			$.getJSON("/verifycode",function (res) {
+				if(res && res["state"]){
+					$img.attr('src',res["data"]);
+					$("#txtToken").val(res["token"]);
+				}
+			});
+		});
+		$("#btnSubmit").on('click',function () {
+			var code=$("#txtCode").val();
+			var token=$("#txtToken").val();
+			$.post('/verifycode',{"code":code,"token":token}).then(function (res) {
+				console.log(res);
+			}).fail(function (err) {
+				console.error(err);
+			})
+		});
+	</script> 
 </div>

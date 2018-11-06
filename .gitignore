@@ -1,3 +1,5 @@
-**/debug
-**/.vscode
-**/startup.*
+debug
+.vscode
+startup.*
+setup.*
+.idea*

@@ -50,7 +50,7 @@ func main() {
 	tmpl := iris.HTML("./views", ".html")
 	tmpl.Layout("layouts/layout.html")
 	tmpl.Reload(true)
-	// tmpl.Binary(Asset, AssetNames)
+	tmpl.Binary(Asset, AssetNames)
 	app.RegisterView(tmpl)
 
 	app.Handle("GET", "/", func(ctx iris.Context) {
